@@ -94,11 +94,11 @@ private extension UserFilesTableViewCell {
     }
     
     func setupLayout() {
-        contentView.addSubview(filePreview)
-        contentView.addSubview(fileTitle)
-        contentView.addSubview(fileCreationDate)
-        contentView.addSubview(fileFormat)
-        contentView.addSubview(fileSize)
+        contentView.add(subviews: [filePreview,
+                                   fileTitle,
+                                   fileCreationDate,
+                                   fileFormat,
+                                   fileSize])
         
         filePreview.snp.makeConstraints { make in
             make.width.equalTo(120)
