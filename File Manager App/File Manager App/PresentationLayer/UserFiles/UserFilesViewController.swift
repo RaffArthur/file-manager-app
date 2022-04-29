@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 
 final class UserFilesViewController: UIViewController {
+    private var userFiles: [UserFile] = []
+    
+    private let fileManager: AppFileManager?
+    
     private lazy var imagePickerController: UIImagePickerController = {
         let ipc = UIImagePickerController()
         ipc.delegate = self
@@ -26,6 +30,7 @@ final class UserFilesViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tv = UITableView(frame: .zero, style: .plain)
+        tv.rowHeight = UITableView.automaticDimension
         tv.register(UserFilesTableViewCell.self,
                     forCellReuseIdentifier: String(describing: UserFilesTableViewCell.self))
         tv.delegate = self
@@ -34,10 +39,74 @@ final class UserFilesViewController: UIViewController {
         return tv
     }()
     
+    init(fileManager: AppFileManager) {
+        self.fileManager = fileManager
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        getFullFilesData()
+        
         setupScreen()
+        setupActions()
+    }
+}
+
+private extension UserFilesViewController {
+    func getFullFilesData() {
+        fileManager?.getFilesWithAttributes(atDirectory: .documentDirectory) { fullFilesData in
+            let convertedFullFilesData = fullFilesData.compactMap {
+                UserFile(url:  $0.file.absoluteString,
+                         name: $0.file.lastPathComponent,
+                         size: convert(attribute: .size, in: $0.attributes),
+                         format: $0.file.lastPathComponent.components(separatedBy: ".").last,
+                         creationDate: convert(attribute: .creationDate, in: $0.attributes))
+            }
+            
+            userFiles = convertedFullFilesData
+            
+            tableView.reloadData()
+        }
+    }
+        
+    func convert(attribute: FileAttributeKey, in attributes: [FileAttributeKey: Any]) -> String {
+        for _ in attributes {
+            if attribute == .size {
+                guard let size = attributes[.size],
+                      let sizeDouble = size as? Int64
+                else {
+                    return String()
+                }
+                
+                let formattedSize = ByteCountFormatter.string(fromByteCount: sizeDouble, countStyle: .file)
+                
+                return "\(formattedSize)"
+            }
+            
+            if attribute == .creationDate {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .long
+                dateFormatter.timeZone = TimeZone(identifier: "RU")
+                dateFormatter.locale = Locale(identifier: "RU")
+                
+                guard let creationDate = attributes[.creationDate],
+                      let formattedCreationDate = dateFormatter.string(for: creationDate)
+                else {
+                    return String()
+                }
+                
+                return formattedCreationDate
+            }
+        }
+        
+        return "отсутствует"
     }
 }
 
@@ -66,24 +135,31 @@ private extension UserFilesViewController {
     }
 }
 
+private extension UserFilesViewController {
+    func setupActions() {
+        addFileButton.action = #selector(addFileToDocuments)
+        addFileButton.target = self
+    }
+    
+    @objc func addFileToDocuments() {
+        imagePickerController.modalPresentationStyle = .automatic
+        
+        present(imagePickerController, animated: true)
+    }
+}
+
 extension UserFilesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
-
-        return UITableView.automaticDimension
-    }
 }
 
 extension UserFilesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return userFiles.count
     }
     
     func tableView(_ tableView: UITableView,
@@ -91,6 +167,8 @@ extension UserFilesViewController: UITableViewDataSource {
         let identifier = String(describing: UserFilesTableViewCell.self)
         let cell = tableView.dequeueReusableCell(withIdentifier: identifier ,
                                                  for: indexPath) as? UserFilesTableViewCell
+        
+        cell?.configure(file: userFiles[indexPath.row])
 
         return cell ?? UITableViewCell()
     }
@@ -99,6 +177,13 @@ extension UserFilesViewController: UITableViewDataSource {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive,
                                              title: "Удалить") { action, view, success in
+            guard let name = self.userFiles[indexPath.row].name else { return }
+            
+            self.fileManager?.removeFileOrDirectory(withName: name,
+                                                    atDirectory: .documentDirectory)
+            
+            self.userFiles.remove(at: indexPath.row)
+            
             tableView.deleteRows(at: [indexPath], with: .automatic)
                         
             success(true)
@@ -111,7 +196,18 @@ extension UserFilesViewController: UITableViewDataSource {
 extension UserFilesViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController,
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = (info[.originalImage] as? UIImage)?.jpegData(compressionQuality: 0.2),
+              let name = (info[.imageURL] as? URL)?.lastPathComponent
+        else {
+            return
+        }
+        
+        fileManager?.create(file: image,
+                            withName: name,
+                            atDirectory: .documentDirectory)
+        
         picker.dismiss(animated: true)
         
+        getFullFilesData()
     }
 }
