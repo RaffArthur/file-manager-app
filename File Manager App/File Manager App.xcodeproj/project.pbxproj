@@ -15,6 +15,7 @@
 		75C6E1E1281C35A2000D2D6A /* UserFilesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C6E1E0281C35A2000D2D6A /* UserFilesTableViewCell.swift */; };
 		75C6E1E4281C3CA6000D2D6A /* AppFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C6E1E3281C3CA6000D2D6A /* AppFileManager.swift */; };
 		75C6E1E6281C3E9B000D2D6A /* AppFileManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C6E1E5281C3E9B000D2D6A /* AppFileManagerImpl.swift */; };
+		75C6E1EA281C42A2000D2D6A /* UserFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C6E1E9281C42A2000D2D6A /* UserFile.swift */; };
 		CA599D1E2BB92E0321BA3677 /* Pods_File_Manager_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEFF72BD02000FAE85D82F3B /* Pods_File_Manager_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		75C6E1E0281C35A2000D2D6A /* UserFilesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFilesTableViewCell.swift; sourceTree = "<group>"; };
 		75C6E1E3281C3CA6000D2D6A /* AppFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFileManager.swift; sourceTree = "<group>"; };
 		75C6E1E5281C3E9B000D2D6A /* AppFileManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFileManagerImpl.swift; sourceTree = "<group>"; };
+		75C6E1E9281C42A2000D2D6A /* UserFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFile.swift; sourceTree = "<group>"; };
 		9EE28618F08EA4CDBA8E7B20 /* Pods-File Manager App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-File Manager App.debug.xcconfig"; path = "Target Support Files/Pods-File Manager App/Pods-File Manager App.debug.xcconfig"; sourceTree = "<group>"; };
 		CEFF72BD02000FAE85D82F3B /* Pods_File_Manager_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_File_Manager_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -78,6 +80,7 @@
 				7580C850281C295B002C27FB /* ApplicationLayer */,
 				75C6E1DC281C305E000D2D6A /* PresentationLayer */,
 				75C6E1E2281C3C3F000D2D6A /* AppFileManager */,
+				75C6E1E8281C4292000D2D6A /* Models */,
 				7580C84A281C27DE002C27FB /* Info.plist */,
 			);
 			path = "File Manager App";
@@ -118,6 +121,14 @@
 				75C6E1E5281C3E9B000D2D6A /* AppFileManagerImpl.swift */,
 			);
 			path = AppFileManager;
+			sourceTree = "<group>";
+		};
+		75C6E1E8281C4292000D2D6A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				75C6E1E9281C42A2000D2D6A /* UserFile.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		87A43622F163FDB3B501625C /* Pods */ = {
@@ -245,6 +256,7 @@
 			files = (
 				75C6E1E1281C35A2000D2D6A /* UserFilesTableViewCell.swift in Sources */,
 				75C6E1E6281C3E9B000D2D6A /* AppFileManagerImpl.swift in Sources */,
+				75C6E1EA281C42A2000D2D6A /* UserFile.swift in Sources */,
 				75C6E1DF281C3340000D2D6A /* UserFilesViewController.swift in Sources */,
 				7580C83D281C27DA002C27FB /* AppDelegate.swift in Sources */,
 				75C6E1E4281C3CA6000D2D6A /* AppFileManager.swift in Sources */,
