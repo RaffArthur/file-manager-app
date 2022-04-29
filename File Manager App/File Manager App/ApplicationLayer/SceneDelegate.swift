@@ -8,8 +8,9 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
+    
+    let fileManager = AppFileManagerImpl()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -17,7 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
         window = UIWindow(windowScene: windowScene)
         
-        let rootViewController = UINavigationController(rootViewController: UserFilesViewController())
+        let viewController = UserFilesViewController(fileManager: fileManager)
+        let rootViewController = UINavigationController(rootViewController: viewController)
         
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
