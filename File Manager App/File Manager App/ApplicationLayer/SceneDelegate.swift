@@ -10,16 +10,12 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
-    let fileManager = AppFileManagerImpl()
-
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
     
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = UserFilesViewController(fileManager: fileManager)
-        let rootViewController = UINavigationController(rootViewController: viewController)
+        let rootViewController = UINavigationController(rootViewController: RegistrationViewController())
         
         window?.rootViewController = rootViewController
         window?.makeKeyAndVisible()
