@@ -10,7 +10,7 @@ import UIKit
 
 extension String {
     func isValidPassword() -> Bool {
-        let passwordRegex = "^(?=.*[0-9]).{4,8}$"
+        let passwordRegex = "^(?=.*[0-9]).{4,}$"
         
         return NSPredicate(format: "SELF MATCHES %@", passwordRegex).evaluate(with: self)
     }
