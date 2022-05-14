@@ -10,6 +10,8 @@ import Foundation
 enum AuthentificationError: Error {
     case wrongPassword
     case weakPassword
+    case wrongOldPassword
+    case passwordAlreadyInUse
     case userAlreadyExist
     case mismatchPasswords
     case emptyFields
@@ -19,10 +21,13 @@ enum AuthentificationError: Error {
 extension AuthentificationError {
     var title: String {
         switch self {
-        case .wrongPassword:
+        case .wrongPassword,
+             .wrongOldPassword:
             return "Неверный пароль"
         case .weakPassword:
             return "Ненадежный пароль"
+        case .passwordAlreadyInUse:
+            return "Пароль уже используется"
         case .userAlreadyExist:
             return "Пользователь существует"
         case .mismatchPasswords:
@@ -40,6 +45,10 @@ extension AuthentificationError {
             return "Неверный пароль, создайте новый пароль или повторите попытку входа"
         case .weakPassword:
             return "Введите пароль состоящий минимум из 4 символов и повторите попытку"
+        case .wrongOldPassword:
+            return "Старый пароль введен неверно, повторите попытку ввода"
+        case .passwordAlreadyInUse:
+            return "Этот пароль уже используется этим аккаунтом, введите новый пароль и повторите поптыку"
         case .userAlreadyExist:
             return "Пользователь уже существует, выполните вход или повторите попытку"
         case .mismatchPasswords:
