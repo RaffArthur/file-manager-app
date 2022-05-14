@@ -66,7 +66,7 @@ extension RegistrationViewController: RegistrationViewDelegate {
             return
         }
         
-        let credentials = AuthentificationCredentials(userName: "MOKKO",
+        let credentials = AuthentificationCredentials(userName: UIDevice.current.name,
                                                       oldPassword: nil,
                                                       password: password,
                                                       repeatPassword: repeatPassword)

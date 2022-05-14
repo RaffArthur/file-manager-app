@@ -62,7 +62,7 @@ extension LoginViewController: LoginViewDelegate {
     func didTapLoginButton() {
         guard let password = loginView.userPassword else { return }
         
-        let credentials = AuthentificationCredentials(userName: "MOKKO",
+        let credentials = AuthentificationCredentials(userName: UIDevice.current.name,
                                                       oldPassword: nil,
                                                       password: password,
                                                       repeatPassword: nil)

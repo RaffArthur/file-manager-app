@@ -67,7 +67,7 @@ extension ChangePasswordViewController: ChangePasswordViewDelegate {
             return
         }
         
-        let credentials = AuthentificationCredentials(userName: "MOKKO",
+        let credentials = AuthentificationCredentials(userName: UIDevice.current.name,
                                                       oldPassword: oldPassword,
                                                       password: newPassword,
                                                       repeatPassword: repeatNewPassword)
