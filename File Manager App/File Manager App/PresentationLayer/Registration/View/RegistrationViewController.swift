@@ -39,6 +39,8 @@ private extension RegistrationViewController {
     
     func setupContent() {
         view.backgroundColor = .systemIndigo
+        
+        UITextField.appearance().tintColor = .white
     }
 }
 

@@ -39,6 +39,8 @@ private extension LoginViewController {
     
     func setupContent() {
         view.backgroundColor = .systemIndigo
+        
+        UITextField.appearance().tintColor = .white
     }
 }
 

@@ -39,6 +39,8 @@ private extension ChangePasswordViewController {
     
     func setupContent() {
         view.backgroundColor = .systemIndigo
+        
+        UITextField.appearance().tintColor = .white
     }
 }
 
