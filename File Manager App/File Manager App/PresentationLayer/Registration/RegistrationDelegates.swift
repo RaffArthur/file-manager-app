@@ -11,3 +11,8 @@ protocol RegistrationViewDelegate: AnyObject {
     func didTapRegistrationButton()
     func didTapHaveAnAccountButton()
 }
+
+protocol RegistrationViewControllerDelegate: AnyObject {
+    func didUserRegistered()
+    func didUserGoToLogin()
+}

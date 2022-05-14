@@ -5,11 +5,14 @@
 //  Created by Arthur Raff on 29.04.2022.
 //
 
+import Foundation
 import UIKit
 
 final class RegistrationViewController: UIViewController {
-    private let registrationView = RegistrationView()
-    let authentificationReviwer = AuthentificationReviewerImpl()
+    weak var reviewer: AuthentificationReviewer?
+    weak var delegate: RegistrationViewControllerDelegate?
+    
+    private lazy var registrationView = RegistrationView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,15 +67,14 @@ extension RegistrationViewController: RegistrationViewDelegate {
         }
         
         let credentials = AuthentificationCredentials(userName: "MOKKO",
+                                                      oldPassword: nil,
                                                       password: password,
                                                       repeatPassword: repeatPassword)
         
-        authentificationReviwer.createAnAccountWith(credentials: credentials) { result in
+        reviewer?.createAnAccountWith(credentials: credentials) { result in
             switch result {
             case .success:
-                let vc = UserFilesViewController(fileManager: AppFileManagerImpl())
-                
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.delegate?.didUserRegistered()
             case .failure(let error):
                 self.show(error: error)
             }
@@ -80,9 +82,6 @@ extension RegistrationViewController: RegistrationViewDelegate {
     }
     
     func didTapHaveAnAccountButton() {
-        let vc = LoginViewController()
-        
-        navigationController?.modalPresentationStyle = .popover
-        navigationController?.pushViewController(vc, animated: true)
+        delegate?.didUserGoToLogin()
     }
 }
