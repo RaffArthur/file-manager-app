@@ -11,6 +11,8 @@ final class UserFilesTableViewCell: UITableViewCell {
     private lazy var filePreview: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleToFill
+        iv.layer.cornerRadius = 14
+        iv.layer.masksToBounds = true
         
         return iv
     }()

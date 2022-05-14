@@ -12,7 +12,7 @@ import SnapKit
 final class UserFilesViewController: UIViewController {
     private var userFiles: [UserFile] = []
     
-    private let fileManager: AppFileManager?
+    weak var fileManager: AppFileManager?
     
     private lazy var imagePickerController: UIImagePickerController = {
         let ipc = UIImagePickerController()
@@ -39,16 +39,6 @@ final class UserFilesViewController: UIViewController {
         return tv
     }()
     
-    init(fileManager: AppFileManager) {
-        self.fileManager = fileManager
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +46,12 @@ final class UserFilesViewController: UIViewController {
         
         setupScreen()
         setupActions()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setFileSortingBySwitcherState()
     }
 }
 
@@ -71,6 +67,8 @@ private extension UserFilesViewController {
             }
             
             userFiles = convertedFullFilesData
+            
+            setFileSortingBySwitcherState()
             
             tableView.reloadData()
         }
@@ -107,6 +105,36 @@ private extension UserFilesViewController {
         }
         
         return "отсутствует"
+    }
+}
+
+private extension UserFilesViewController {
+    func setFileSortingBySwitcherState() {
+        let switcherIsOn = UserDefaults.standard.bool(forKey: SettingsKeys.sortFiles.key)
+        
+        if switcherIsOn == true {
+            userFiles.sort {
+                guard let lhs = $0.name,
+                      let rhs = $1.name
+                else {
+                    return Bool()
+                }
+                
+                return lhs > rhs
+            }
+        } else {
+            userFiles.sort {
+                guard let lhs = $0.name,
+                      let rhs = $1.name
+                else {
+                    return Bool()
+                }
+                
+                return lhs < rhs
+            }
+        }
+        
+        tableView.reloadData()
     }
 }
 
