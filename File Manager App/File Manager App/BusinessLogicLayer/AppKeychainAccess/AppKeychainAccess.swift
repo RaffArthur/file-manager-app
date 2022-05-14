@@ -18,5 +18,8 @@ protocol AppKeychainAccess: AnyObject {
     func loginWith(credentials: AuthentificationCredentials,
                    completion: KeychainAccessResult)
     
+    func changeUserPasswordWith(credentials: AuthentificationCredentials,
+                                completion: KeychainAccessResult)
+    
     func removeUserWith(credentials: AuthentificationCredentials)
 }

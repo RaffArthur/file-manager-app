@@ -45,6 +45,26 @@ final class AppKeychainAccessImpl: AppKeychainAccess {
         }
     }
     
+    func changeUserPasswordWith(credentials: AuthentificationCredentials,
+                                completion: KeychainAccessResult) {
+        guard let userName = credentials.userName,
+              let password = credentials.password,
+              let oldPassword = credentials.oldPassword
+        else {
+            return
+        }
+        
+        if !password.isValidPassword() {
+            completion?(nil, .weakPassword)
+        } else if keychain[userName] != oldPassword {
+            completion?(nil, .wrongOldPassword)
+        } else {
+            keychain[userName] = password
+            
+            completion?(keychain, nil)
+        }
+    }
+    
     func removeUserWith(credentials: AuthentificationCredentials) {
         guard let userName = credentials.userName else { return }
         
