@@ -38,7 +38,9 @@ final class AppKeychainAccessImpl: AppKeychainAccess {
             return
         }
         
-        if password != keychain[userName] {
+        if keychain[userName] == nil {
+            completion?(nil, .userNotFound)
+        } else if password != keychain[userName] {
             completion?(nil, .wrongPassword)
         } else {
             completion?(keychain, nil)

@@ -25,6 +25,10 @@ final class AuthentificationReviewerImpl: AuthentificationReviewer {
         
         appKeychainAccess.loginWith(credentials: credentials) { result, error in
             guard error == nil else {
+                if error == .userNotFound {
+                    completion(.failure(.userNotFound))
+                }
+                
                 if error == .wrongPassword {
                     completion(.failure(.wrongPassword))
                 }

@@ -13,6 +13,7 @@ enum AuthentificationError: Error {
     case wrongOldPassword
     case passwordAlreadyInUse
     case userAlreadyExist
+    case userNotFound
     case mismatchPasswords
     case emptyFields
     case unknownError
@@ -30,6 +31,8 @@ extension AuthentificationError {
             return "Пароль уже используется"
         case .userAlreadyExist:
             return "Пользователь существует"
+        case .userNotFound:
+            return "Пользователь не найден"
         case .mismatchPasswords:
             return "Пароли не совпадают"
         case .emptyFields:
@@ -51,6 +54,8 @@ extension AuthentificationError {
             return "Этот пароль уже используется этим аккаунтом, введите новый пароль и повторите поптыку"
         case .userAlreadyExist:
             return "Пользователь уже существует, выполните вход или повторите попытку"
+        case .userNotFound:
+            return "Такого пользователя не существует, зарегистрируйтесь, чтобы выполнить вход"
         case .mismatchPasswords:
             return "Введенные пароли не совпадают, повторите попытку"
         case .emptyFields:

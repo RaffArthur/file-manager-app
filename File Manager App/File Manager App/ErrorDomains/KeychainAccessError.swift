@@ -12,5 +12,6 @@ enum KeychainAccessError: Error {
     case weakPassword
     case wrongOldPassword
     case userAlreadyExist
+    case userNotFound
     case unknownError
 }
