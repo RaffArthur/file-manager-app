@@ -10,6 +10,7 @@ import Foundation
 enum KeychainAccessError: Error {
     case wrongPassword
     case weakPassword
+    case wrongOldPassword
     case userAlreadyExist
     case unknownError
 }
