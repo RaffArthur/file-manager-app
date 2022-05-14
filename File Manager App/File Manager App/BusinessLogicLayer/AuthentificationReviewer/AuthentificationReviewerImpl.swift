@@ -79,9 +79,50 @@ final class AuthentificationReviewerImpl: AuthentificationReviewer {
             completion(.success(result))
         }
     }
+    
+    func changePasswordWith(credentials: AuthentificationCredentials,
+                            completion: @escaping AuthentificationResult) {
+        guard let oldPassword = credentials.oldPassword,
+              let newPassword = credentials.password,
+              let repeatNewPassword = credentials.repeatPassword
+        else {
+            return
+        }
+        
+        let inputDataValidationError = changePasswordValidation(oldPassword: oldPassword,
+                                                                newPassword: newPassword,
+                                                                repeatNewPassword: repeatNewPassword)
+        
+        guard inputDataValidationError == nil else {
+            inputDataValidationError.flatMap { completion(.failure($0))}
+            
+            return
+        }
+        
+        appKeychainAccess.changeUserPasswordWith(credentials: credentials) { result, error in
+            guard error == nil else {
+                if error == .weakPassword {
+                    completion(.failure(.weakPassword))
+                }
+                
+                if error == .wrongOldPassword {
+                    completion(.failure(.wrongOldPassword))
+                }
+                
+                if error == .unknownError {
+                    completion(.failure(.unknownError))
+                }
+                
+                return
+            }
+            
+            guard let result = result else { return }
+            completion(.success(result))
+        }
+    }
 }
 
-extension AuthentificationReviewerImpl {
+private extension AuthentificationReviewerImpl {
     func creatingAnAccountValidation(password: String,
                                      repeatPassword: String) -> AuthentificationError? {
         if password.isEmpty || repeatPassword.isEmpty {
@@ -98,6 +139,24 @@ extension AuthentificationReviewerImpl {
     func loginValidation(password: String) -> AuthentificationError? {
         if password.isEmpty {
             return .emptyFields
+        }
+        
+        return nil
+    }
+    
+    func changePasswordValidation(oldPassword: String,
+                                  newPassword: String,
+                                  repeatNewPassword: String) -> AuthentificationError? {
+        if newPassword.isEmpty || repeatNewPassword.isEmpty || newPassword.isEmpty {
+            return .emptyFields
+        }
+        
+        if newPassword == oldPassword {
+            return .passwordAlreadyInUse
+        }
+        
+        if repeatNewPassword != newPassword {
+            return .mismatchPasswords
         }
         
         return nil

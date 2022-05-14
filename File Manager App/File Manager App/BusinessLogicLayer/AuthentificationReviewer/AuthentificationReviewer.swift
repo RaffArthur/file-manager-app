@@ -15,4 +15,7 @@ protocol AuthentificationReviewer: AnyObject {
     
     func createAnAccountWith(credentials: AuthentificationCredentials,
                              completion: @escaping AuthentificationResult)
+    
+    func changePasswordWith(credentials: AuthentificationCredentials,
+                            completion: @escaping AuthentificationResult)
 }
