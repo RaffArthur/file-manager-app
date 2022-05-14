@@ -1,20 +1,24 @@
 PODS:
+  - IQKeyboardManagerSwift (6.5.10)
   - KeychainAccess (4.2.2)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
+  - IQKeyboardManagerSwift
   - KeychainAccess
   - SnapKit (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
+    - IQKeyboardManagerSwift
     - KeychainAccess
     - SnapKit
 
 SPEC CHECKSUMS:
+  IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   KeychainAccess: c0c4f7f38f6fc7bbe58f5702e25f7bd2f65abf51
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 37c6d2b2b8a41a774f4b2413bec631d4dffd4df9
+PODFILE CHECKSUM: 886d31813f3632aa33a0f763ee7d713c1397629b
 
 COCOAPODS: 1.10.0
