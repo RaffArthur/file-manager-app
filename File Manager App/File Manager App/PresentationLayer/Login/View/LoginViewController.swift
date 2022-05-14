@@ -9,8 +9,10 @@ import Foundation
 import UIKit
 
 final class LoginViewController: UIViewController {
-    private let loginView = LoginView()
-    let authentificationReviwer = AuthentificationReviewerImpl()
+    weak var reviewer: AuthentificationReviewer?
+    weak var delegate: LoginViewControllerDelegate?
+    
+    private lazy var loginView = LoginView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,15 +63,14 @@ extension LoginViewController: LoginViewDelegate {
         guard let password = loginView.userPassword else { return }
         
         let credentials = AuthentificationCredentials(userName: "MOKKO",
+                                                      oldPassword: nil,
                                                       password: password,
                                                       repeatPassword: nil)
         
-        authentificationReviwer.loginWith(credentials: credentials) { result in
+        reviewer?.loginWith(credentials: credentials) { result in
             switch result {
             case .success:
-                let vc = UserFilesViewController(fileManager: AppFileManagerImpl())
-                
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.delegate?.didUserLoggedIn()
             case .failure(let error):
                 self.show(error: error)
             }
@@ -77,6 +78,6 @@ extension LoginViewController: LoginViewDelegate {
     }
     
     func didTapNoAccountButton() {
-        navigationController?.popViewController(animated: true)
+        delegate?.didUserGoToRegistration()
     }
 }

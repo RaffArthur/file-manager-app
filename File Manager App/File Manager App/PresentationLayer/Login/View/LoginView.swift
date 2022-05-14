@@ -95,8 +95,6 @@ final class LoginView: UIView {
         
         setupView()
         setupActions()
-        
-        userPasswordField.enablePasswordVisibiltyToggle()
     }
     
     required init?(coder: NSCoder) {
@@ -175,6 +173,8 @@ private extension LoginView {
     
     func setupContent() {
         backgroundColor = .systemIndigo
+        
+        userPasswordField.enablePasswordVisibiltyToggle()
     }
 }
 

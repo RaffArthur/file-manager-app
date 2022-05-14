@@ -11,3 +11,8 @@ protocol LoginViewDelegate: AnyObject {
     func didTapLoginButton()
     func didTapNoAccountButton()
 }
+
+protocol LoginViewControllerDelegate: AnyObject {
+    func didUserLoggedIn()
+    func didUserGoToRegistration()
+}
