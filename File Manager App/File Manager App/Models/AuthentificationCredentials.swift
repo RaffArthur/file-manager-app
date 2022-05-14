@@ -9,6 +9,7 @@ import Foundation
 
 struct AuthentificationCredentials: Codable {
     let userName: String?
+    let oldPassword: String?
     let password: String?
     let repeatPassword: String?
 }
