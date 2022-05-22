@@ -6,42 +6,26 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var appCoordinator: AppCoordinator?
     
-    let fileManager = AppFileManagerImpl()
-
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        IQKeyboardManager.shared.enable = true
+        
         guard let windowScene = (scene as? UIWindowScene) else { return }
     
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = UserFilesViewController(fileManager: fileManager)
-        let rootViewController = UINavigationController(rootViewController: viewController)
+        let navigationController: UINavigationController = .init()
         
-        window?.rootViewController = rootViewController
+        appCoordinator = AppCoordinator(navigationController)
+        
+        appCoordinator?.start()
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-    }
-
-    func sceneDidDisconnect(_ scene: UIScene) {
-
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        
-    }
-
-    func sceneWillEnterForeground(_ scene: UIScene) {
-        
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        
     }
 }

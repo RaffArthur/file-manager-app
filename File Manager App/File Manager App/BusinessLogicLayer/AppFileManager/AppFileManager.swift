@@ -24,7 +24,7 @@ enum FileManagerDirectory {
     }
 }
 
-protocol AppFileManager {
+protocol AppFileManager: AnyObject {
     func getFilesWithAttributes(atDirectory directory: FileManagerDirectory,
                                 completion: FullFilesData)
     
